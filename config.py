@@ -1,4 +1,4 @@
-WAKE_WORDS =["nexus"]
+WAKE_WORDS =["nexus", "nex", "nexus assistente", "nexus assistente virtual", "nexus assistente de voz", "nexus assistente pessoal", "nexus assistente inteligente", "nexus assistente digital", "nexus assistente de inteligência artificial", "nexus assistente de IA", "nexus assistente de aprendizado de máquina", "nexus assistente de deep learning", "nexus assistente de reconhecimento de voz", "nexus assistente de processamento de linguagem natural", "nexus assistente de automação", "nexus assistente de produtividade", "nexus assistente de tarefas", "nexus assistente de organização", "nexus assistente de gerenciamento de tempo", "nexus assistente de lembretes", "nexus assistente de agenda", "nexus assistente de calendário"]
 
 LISTEN_TIME_WAKE = 2
 LISTEN_TIME_COMMAND = 4

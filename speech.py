@@ -9,14 +9,21 @@ def preparar_microfone(source):
     print("Calibrando microfone...")
     recognizer.adjust_for_ambient_noise(source, duration=2)
 
-
-def ouvir(source, tempo=3):
+def ouvir_continuo(source):
     try:
-        audio = recognizer.listen(source, phrase_time_limit=tempo)
-        texto = recognizer.recognize_google(audio, language="pt-BR")
+        audio = recognizer.listen(source)   # sem limite
+
+        texto = recognizer.recognize_google(
+            audio,
+            language="pt-BR"
+        )
+
         return texto.lower()
+
     except sr.UnknownValueError:
         return ""
+
     except sr.RequestError:
-        print("Erro no reconhecimento de voz.")
+        print("Erro reconhecimento")
         return ""
+    

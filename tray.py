@@ -23,7 +23,7 @@ def pausar(icon, item):
 
     RODANDO = False
 
-    print("Tatsu pausado")
+    print("nexus pausado")
 
 
 def continuar_execucao(icon, item):
@@ -31,19 +31,18 @@ def continuar_execucao(icon, item):
 
     RODANDO = True
 
-    print("Tatsu ativo")
+    print("nexus ativo")
 
 
 def sair(icon, item):
-    print("Encerrando Tatsu")
-
+    print("Encerrando nexus")
     icon.stop()
 
 
 def iniciar_tray():
 
     icon = Icon(
-        "Tatsu",
+        "nexus",
         criar_icone(),
         menu=Menu(
             MenuItem("Pausar", pausar),
@@ -60,7 +59,7 @@ def loop_principal():
     while True:
 
         if RODANDO:
-            print("Tatsu executando...")
+            print("nexus executando...")
 
         time.sleep(3)
 
