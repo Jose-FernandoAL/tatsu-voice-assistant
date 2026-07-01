@@ -1,9 +1,11 @@
 import speech_recognition as sr
 
 from config import WAKE_WORDS, LISTEN_TIME_WAKE, LISTEN_TIME_COMMAND
-from speech import preparar_microfone, ouvir
+from speech_local import ouvir_local
 from router import executar_comando
 from speaker import falar
+
+import commands.dictation as dictation
 
 
 MODO_TEXTO = False
@@ -20,40 +22,73 @@ def rodar_modo_texto():
     while True:
         texto = input("Você: ").lower()
 
-        if texto == "sair":
-            print("Encerrando...")
+        if texto in ["sair", "encerrar", "fechar"]:
+            falar("Encerrando sistema.")
             break
+
+        if dictation.DICTATION_MODE:
+            if detectar_wake_word(texto):
+                dictation.parar_dictado()
+                falar("Modo escrita desativado.")
+            else:
+                dictation.escrever_texto(texto + " ")
+
+            continue
 
         if detectar_wake_word(texto):
             falar("Ativado.")
+
             comando = input("Comando: ").lower()
 
-            if not executar_comando(comando):
+            resposta = executar_comando(comando)
+
+            if resposta:
+                falar(resposta)
+            else:
                 falar("Comando não reconhecido.")
 
 
 def rodar_modo_voz():
-    with sr.Microphone() as source:
-        preparar_microfone(source)
+    print("Tatsu iniciado em modo voz.")
 
-        falar("Sistema iniciado.")
-
-        while True:
+    while True:
             print("\nAguardando ativação...")
-            texto = ouvir(source, LISTEN_TIME_WAKE)
+            texto = ouvir_local()
 
             if texto:
                 print("Ouvi:", texto)
 
+            if texto in ["sair", "encerrar", "fechar"]:
+                falar("Encerrando sistema.")
+                break
+
+            # MODO DITADO:
+            # escreve qualquer coisa sem precisar dizer Tatsu
+            # para quando ouvir Tatsu
+            if dictation.DICTATION_MODE:
+                if detectar_wake_word(texto):
+                    dictation.parar_dictado()
+                    falar("Modo escrita desativado.")
+                elif texto:
+                    dictation.escrever_texto(texto + " ")
+
+                continue
+
+            # MODO NORMAL:
+            # precisa dizer Tatsu para ativar
             if detectar_wake_word(texto):
                 falar("Sim?")
 
-                comando = ouvir(source, LISTEN_TIME_COMMAND)
+                comando = ouvir_local()
 
                 if comando:
                     print("Comando:", comando)
 
-                if not executar_comando(comando):
+                resposta = executar_comando(comando)
+
+                if resposta:
+                    falar(resposta)
+                else:
                     falar("Comando não reconhecido.")
 
 
