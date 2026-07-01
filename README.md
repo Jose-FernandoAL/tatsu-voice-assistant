@@ -1,10 +1,10 @@
-# Tatsu Voice Assistant
+# nexus Voice Assistant
 
-Tatsu is a local voice-controlled desktop assistant built with Python, designed to allow complete hands-free interaction with a computer through voice commands.
+nexus is a local voice-controlled desktop assistant built with Python, designed to allow complete hands-free interaction with a computer through voice commands.
 
 The project was created with the idea of enabling users to control their computer while moving, studying, or working without constantly using a keyboard or mouse.
 
-Unlike cloud assistants, Tatsu focuses on local execution and offline speech recognition.
+Unlike cloud assistants, nexus focuses on local execution and offline speech recognition.
 
 ---
 
@@ -15,11 +15,11 @@ The original goal of the project is simple:
 ```text
 User speaks
 ↓
-Tatsu listens
+nexus listens
 ↓
-Tatsu interprets command
+nexus interprets command
 ↓
-Tatsu executes action locally
+nexus executes action locally
 ```
 
 The long-term vision is creating a lightweight local assistant capable of controlling a computer entirely by voice, even without internet access.
@@ -30,7 +30,7 @@ The long-term vision is creating a lightweight local assistant capable of contro
 
 Implemented so far:
 
-* Wake word activation (**Tatsu**)
+* Wake word activation (**nexus**)
 * Offline speech recognition using Vosk
 * Voice recognition in Portuguese
 * Text mode for debugging
@@ -51,62 +51,62 @@ Implemented so far:
 ### Application Control
 
 ```text
-Tatsu
+nexus
 abrir opera
 
-Tatsu
+nexus
 abrir vscode
 
-Tatsu
+nexus
 abrir calculadora
 
-Tatsu
+nexus
 abrir bloco de notas
 ```
 
 ### System Commands
 
 ```text
-Tatsu
+nexus
 copiar
 
-Tatsu
+nexus
 colar
 
-Tatsu
+nexus
 fechar janela
 ```
 
 ### Multimedia Commands
 
 ```text
-Tatsu
+nexus
 pausar vídeo
 
-Tatsu
+nexus
 aumentar volume
 
-Tatsu
+nexus
 diminuir volume
 
-Tatsu
+nexus
 mutar
 ```
 
 ### Routines
 
 ```text
-Tatsu
+nexus
 modo programação
 
-Tatsu
+nexus
 modo estudo
 ```
 
 ### Dictation Mode
 
 ```text
-Tatsu
+nexus
 modo escrita
 ```
 
@@ -119,7 +119,7 @@ Anything spoken becomes text automatically
 To stop:
 
 ```text
-Tatsu
+nexus
 ```
 
 ---
@@ -189,7 +189,7 @@ Planned:
 
 ## Future Goal
 
-Transform Tatsu into a lightweight local operating assistant capable of controlling a computer entirely through voice commands.
+Transform nexus into a lightweight local operating assistant capable of controlling a computer entirely through voice commands.
 
 Main target use case:
 
@@ -210,7 +210,7 @@ Computer fully controlled by voice
 Clone repository:
 
 ```bash
-git clone https://github.com/Jose-FernandoAL/tatsu-voice-assistant.git
+git clone https://github.com/Jose-FernandoAL/nexus-voice-assistant.git
 ```
 
 Install dependencies:

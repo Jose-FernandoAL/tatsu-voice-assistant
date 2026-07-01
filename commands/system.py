@@ -1,6 +1,11 @@
 import keyboard
 import pyautogui
+from runtime import encerrar
 
+
+def encerrar_nexus():
+    print("Encerrando Nexus...")
+    encerrar()
 
 def copiar():
     keyboard.press_and_release("ctrl+c")
@@ -13,8 +18,8 @@ def colar():
 def fechar_janela():
     keyboard.press_and_release("alt+f4")
 
-def encerrar_tatsu():
-    print("Encerrando Tatsu...")
+def nexus():
+    print("Encerrando Nexus...")
     raise SystemExit
 
 def enter():
@@ -34,8 +39,12 @@ SYSTEM_COMMANDS = {
     "pressionar enter": enter,
     "pausar": pausar,
     "continuar": pausar,
-    "encerrar sistema": encerrar_tatsu,
-    "desligar tatsu": encerrar_tatsu,
-    "sair": encerrar_tatsu,
-   
+    "encerrar sistema": nexus,
+    "desligar nexus": encerrar_nexus,
+    "sair": encerrar_nexus,
+    "encerrar sistema": encerrar_nexus,
+    "desligar sistema": encerrar_nexus,
+    "encerrar": encerrar_nexus,
+    "fechar sistema": encerrar_nexus,
+    "fechar": encerrar_nexus,
 }
