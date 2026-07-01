@@ -12,6 +12,9 @@ def abrir(caminho_ou_comando):
 def abrir_opera():
     os.system ("start opera")
 
+def abrir_spotify():
+    os.startfile(r"C:\Users\josef\AppData\Roaming\Spotify\Spotify.exe")
+
 
 def abrir_vscode():
     subprocess.Popen("code", shell=True)
@@ -30,6 +33,7 @@ def abrir_calculadora():
 
 
 APP_COMMANDS = {
+    "abrir spotify": abrir_spotify,
     "abrir opera": abrir_opera,
     "abre opera": abrir_opera,
     "abrir navegador": abrir_opera,

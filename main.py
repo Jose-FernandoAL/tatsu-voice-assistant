@@ -17,7 +17,7 @@ from control_panel import iniciar_interface
 
 
 
-MODO_TEXTO = True
+MODO_TEXTO = False
 
 
 def detectar_wake_word(texto):
