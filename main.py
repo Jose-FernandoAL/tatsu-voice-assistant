@@ -1,5 +1,5 @@
 import speech_recognition as sr
-from runtime import esta_rodando, esta_ativo
+from runtime import definir_ultimo_comando, esta_rodando, esta_ativo
 from config import WAKE_WORDS, LISTEN_TIME_WAKE, LISTEN_TIME_COMMAND
 from speech_local import ouvir_local
 from router import executar_comando
@@ -11,8 +11,13 @@ import time
 import commands.dictation as dictation
 import threading
 import time
-
-from runtime import esta_rodando, esta_ativo, definir_status
+from runtime import (
+    esta_rodando,
+    esta_ativo,
+    definir_status,
+    definir_ultimo_texto,
+    definir_ultimo_comando
+)
 from control_panel import iniciar_interface
 
 
@@ -77,6 +82,7 @@ def rodar_modo_voz():
         print("\nAguardando ativação...")
 
         texto = ouvir_local()
+        definir_ultimo_texto(texto)
 
         print("Texto recebido:", texto)
 
@@ -98,6 +104,7 @@ def rodar_modo_voz():
             falar("Sim?")
 
             comando = ouvir_local()
+            definir_ultimo_comando(comando)
 
             print("Comando recebido:", comando)
 

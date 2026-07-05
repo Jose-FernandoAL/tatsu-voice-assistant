@@ -1,7 +1,25 @@
 RODANDO = True
 ATIVO = True
 STATUS = "Iniciando..."
+ULTIMO_TEXTO = ""
+ULTIMO_COMANDO = ""
 
+def definir_ultimo_texto(texto):
+    global ULTIMO_TEXTO
+    ULTIMO_TEXTO = texto
+
+
+def obter_ultimo_texto():
+    return ULTIMO_TEXTO
+
+
+def definir_ultimo_comando(comando):
+    global ULTIMO_COMANDO
+    ULTIMO_COMANDO = comando
+
+
+def obter_ultimo_comando():
+    return ULTIMO_COMANDO
 
 def pausar():
     global RODANDO, STATUS

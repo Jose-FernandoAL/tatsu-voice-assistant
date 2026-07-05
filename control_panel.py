@@ -2,6 +2,8 @@ import tkinter as tk
 from speaker import falar
 
 from runtime import (
+     obter_ultimo_texto,
+    obter_ultimo_comando,
     pausar,
     continuar_execucao,
     encerrar,
@@ -37,6 +39,35 @@ def iniciar_interface():
         font=("Arial", 14, "bold")
     )
     label_status.pack(pady=10)
+    label_ultimo_texto_titulo = tk.Label(
+    janela,
+    text="Último texto reconhecido:",
+    font=("Arial", 10, "bold")
+    )
+    label_ultimo_texto_titulo.pack(pady=(10, 0))
+
+    label_ultimo_texto = tk.Label(
+    janela,
+    text="-",
+    font=("Arial", 10),
+    wraplength=360
+    )
+    label_ultimo_texto.pack(pady=5)
+
+    label_ultimo_comando_titulo = tk.Label(
+    janela,
+    text="Último comando:",
+    font=("Arial", 10, "bold")
+    )
+    label_ultimo_comando_titulo.pack(pady=(10, 0))
+
+    label_ultimo_comando = tk.Label(
+    janela,
+    text="-",
+    font=("Arial", 10),
+    wraplength=360
+    )
+    label_ultimo_comando.pack(pady=5)
 
     def atualizar_status():
         if esta_ativo():
