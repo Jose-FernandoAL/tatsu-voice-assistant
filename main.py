@@ -12,6 +12,13 @@ import time
 import commands.dictation as dictation
 import threading
 import time
+from config import (
+    WAKE_WORDS,
+    LISTEN_TIME_WAKE,
+    LISTEN_TIME_COMMAND,
+    AUTH_VOICE_ENABLED,
+    MODO_TEXTO
+)
 from runtime import (
     esta_rodando,
     esta_ativo,
@@ -20,7 +27,7 @@ from runtime import (
     definir_ultimo_comando
 )
 from control_panel import iniciar_interface
-
+from web_server import iniciar_servidor_web
 
 
 MODO_TEXTO = False
@@ -101,22 +108,21 @@ def rodar_modo_voz():
             continue
 
         if detectar_wake_word(texto):
-            definir_status("Confirmando identidade")
-            falar("Confirme sua identidade.")
 
-        confirmacao = ouvir_local()
-        definir_ultimo_texto(confirmacao)
+            if AUTH_VOICE_ENABLED:
+                definir_status("Confirmando identidade")
+                falar("Confirme sua identidade.")
 
-        print("Confirmação recebida:", confirmacao)
+                confirmacao = ouvir_local()
+                definir_ultimo_texto(confirmacao)
+
+                print("Confirmação recebida:", confirmacao)
 
         if not frase_autorizada(confirmacao):
-            print("DEBUG: confirmação recusada")
             definir_status("Voz não autorizada")
             falar("Voz não autorizada.")
             definir_status("Ouvindo")
             continue
-
-        print("DEBUG: confirmação aceita")
 
         definir_status("Aguardando comando")
         falar("Sim?")
@@ -146,10 +152,16 @@ if __name__ == "__main__":
 
     else:
         voz_thread = threading.Thread(
-            target=rodar_modo_voz
+            target=rodar_modo_voz,
+            daemon=True
         )
 
-        voz_thread.daemon = True
+        web_thread = threading.Thread(
+            target=iniciar_servidor_web,
+            daemon=True
+        )
+
         voz_thread.start()
+        web_thread.start()
 
         iniciar_interface()

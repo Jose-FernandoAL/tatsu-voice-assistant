@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nexus Web</title>
+    <a href="/logout" class="sair">
+    Sair
+</a>
+    <style>
+
+
+    .sair {
+    display: block;
+    margin-bottom: 20px;
+    color: #93c5fd;
+    text-align: center;
+    text-decoration: none;
+}
+
+.sair:hover {
+    text-decoration: underline;
+}
+
+        
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+
+            background-color: #111827;
+
+            color: white;
+
+        }
+
+
+        .painel {
+
+            width: 90%;
+
+            max-width: 500px;
+
+            padding: 30px;
+
+            border-radius: 15px;
+
+            background-color: #1f2937;
+
+            box-shadow: 0 0 20px
+            rgba(0, 0, 0, 0.4);
+
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            box-sizing: border-box;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+        }
+
+
+        button {
+
+            width: 100%;
+
+            margin-top: 15px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+        }
+
+
+        .enviar {
+
+            background-color: #2563eb;
+
+            color: white;
+
+        }
+
+
+        .confirmar {
+
+            background-color: #16a34a;
+
+            color: white;
+
+        }
+
+
+        .cancelar {
+
+            background-color: #dc2626;
+
+            color: white;
+
+        }
+
+
+        .confirmacao {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            background-color: #374151;
+
+        }
+
+
+        .resposta {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 8px;
+
+            background-color: #111827;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="painel">
+
+        <h1>Nexus Web</h1>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="comando"
+                placeholder="Digite um comando"
+                autocomplete="off"
+                required
+            >
+
+            <button
+                class="enviar"
+                type="submit"
+                name="acao"
+                value="preparar"
+            >
+
+                Enviar comando
+
+            </button>
+
+        </form>
+
+
+        {% if comando_pendente %}
+
+            <section class="confirmacao">
+
+                <p>
+
+                    Executar:
+
+                </p>
+
+                <strong>
+
+                    "{{ comando_pendente }}"
+
+                </strong>
+
+
+                <form method="POST">
+
+                    <input
+                        type="hidden"
+                        name="comando"
+                        value="{{ comando_pendente }}"
+                    >
+
+
+                    <button
+                        class="confirmar"
+                        type="submit"
+                        name="acao"
+                        value="confirmar"
+                    >
+
+                        Confirmar
+
+                    </button>
+
+
+                    <button
+                        class="cancelar"
+                        type="submit"
+                        name="acao"
+                        value="cancelar"
+                    >
+
+                        Cancelar
+
+                    </button>
+
+                </form>
+
+            </section>
+
+        {% endif %}
+
+
+        {% if resposta %}
+
+            <section class="resposta">
+
+                <strong>
+
+                    Resposta do Nexus:
+
+                </strong>
+
+                <p>
+
+                    {{ resposta }}
+
+                </p>
+
+            </section>
+
+        {% endif %}
+
+    </main>
+
+</body>
+
+</html>
