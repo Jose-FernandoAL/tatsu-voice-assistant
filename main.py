@@ -28,6 +28,10 @@ from runtime import (
 )
 from control_panel import iniciar_interface
 from web_server import iniciar_servidor_web
+from tunnel import iniciar_tunel
+import time
+
+
 
 
 MODO_TEXTO = False
@@ -162,6 +166,11 @@ if __name__ == "__main__":
         )
 
         voz_thread.start()
+
         web_thread.start()
+
+        time.sleep(2)
+
+        iniciar_tunel()
 
         iniciar_interface()
