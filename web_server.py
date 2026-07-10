@@ -12,7 +12,7 @@ from flask import (
 
 from dotenv import load_dotenv
 
-from router import executar_comando
+from command_queue import enviar_comando
 
 
 # Carrega as variáveis armazenadas no arquivo .env.
@@ -138,7 +138,7 @@ def pagina_inicial():
 
             if comando:
 
-                resposta_router = executar_comando(
+                resposta_router = enviar_comando(
                     comando
                 )
 

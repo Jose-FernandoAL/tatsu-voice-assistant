@@ -2,7 +2,10 @@ import speech_recognition as sr
 from runtime import definir_ultimo_comando, esta_rodando, esta_ativo
 from config import WAKE_WORDS, LISTEN_TIME_WAKE, LISTEN_TIME_COMMAND
 from speech_local import ouvir_local
-from router import executar_comando
+from command_queue import (
+    iniciar_fila_comandos,
+    enviar_comando
+)   
 from speaker import falar
 from runtime import esta_rodando
 from tray import iniciar_tray
@@ -70,7 +73,7 @@ def rodar_modo_texto():
 
             comando = input("Comando: ").lower()
 
-            resposta = executar_comando(comando)
+            resposta = enviar_comando(comando)
 
             if resposta:
                 falar(resposta)
@@ -94,67 +97,102 @@ def rodar_modo_voz():
         print("\nAguardando ativação...")
 
         texto = ouvir_local()
+
         definir_ultimo_texto(texto)
 
         print("Texto recebido:", texto)
 
-        if dictation.DICTATION_MODE:
-            definir_status("Modo ditado ativo")
-
-            if detectar_wake_word(texto):
-                dictation.parar_dictado()
-                definir_status("Ouvindo")
-                falar("Modo escrita desativado.")
-
-            elif texto:
-                dictation.escrever_texto(texto + " ")
-
-            continue
-
         if detectar_wake_word(texto):
 
             if AUTH_VOICE_ENABLED:
-                definir_status("Confirmando identidade")
-                falar("Confirme sua identidade.")
+
+                definir_status(
+                    "Confirmando identidade"
+                )
+
+                falar(
+                    "Confirme sua identidade."
+                )
 
                 confirmacao = ouvir_local()
-                definir_ultimo_texto(confirmacao)
 
-                print("Confirmação recebida:", confirmacao)
+                definir_ultimo_texto(
+                    confirmacao
+                )
 
-        if not frase_autorizada(confirmacao):
-            definir_status("Voz não autorizada")
-            falar("Voz não autorizada.")
-            definir_status("Ouvindo")
-            continue
+                print(
+                    "Confirmação recebida:",
+                    confirmacao
+                )
 
-        definir_status("Aguardando comando")
-        falar("Sim?")
+                if not frase_autorizada(
+                    confirmacao
+                ):
 
-        print("DEBUG: vai ouvir comando agora")
+                    definir_status(
+                        "Voz não autorizada"
+                    )
 
-        comando = ouvir_local()
-        definir_ultimo_comando(comando)
+                    falar(
+                        "Voz não autorizada."
+                    )
 
-        print("Comando recebido:", comando)
+                    definir_status(
+                        "Ouvindo"
+                    )       
+                
+                    continue
 
-        resposta = executar_comando(comando)
+            definir_status(
+                "Aguardando comando"
+            )
 
-    if resposta:
-        falar(resposta)
-    else:
-        falar("Comando não reconhecido.")
+            falar(
+                "Sim?"
+            )
 
-    definir_status("Ouvindo")
+            comando = ouvir_local()
+
+            definir_ultimo_comando(
+                comando
+            )
+
+            print(
+                "Comando recebido:",
+                comando
+            )
+
+            resposta = enviar_comando(
+                comando
+            )
+
+            print(
+                "Resposta da fila:",
+                resposta
+            )
+
+            if resposta:
+
+                falar(
+                    resposta
+                )
+
+            definir_status(
+                "Ouvindo"
+            )
 
     falar("Nexus encerrado.")
 
 if __name__ == "__main__":
 
+    iniciar_fila_comandos()
+
     if MODO_TEXTO:
+
         rodar_modo_texto()
 
     else:
+
         voz_thread = threading.Thread(
             target=rodar_modo_voz,
             daemon=True
