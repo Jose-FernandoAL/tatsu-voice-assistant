@@ -23,17 +23,17 @@ def comando_nao_reconhecido(resposta):
     respostas_desconhecidas = [
         "",
          "comando não reconhecido",
-    "comando não reconhecido.",
-    "comando nao reconhecido",
-    "comando nao reconhecido.",
-    "comando não encontrado",
-    "comando não encontrado.",
-    "comando nao encontrado",
-    "comando nao encontrado.",
-    "não entendi",
-    "não entendi.",
-    "nao entendi"
-    ]
+        "comando não reconhecido.",
+        "comando nao reconhecido",
+        "comando nao reconhecido.",
+        "comando não encontrado",
+        "comando não encontrado.",
+        "comando nao encontrado",
+        "comando nao encontrado.",
+        "não entendi",
+        "não entendi.",
+        "nao entendi"
+        ]
 
     return texto in respostas_desconhecidas
 
