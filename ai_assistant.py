@@ -1,9 +1,12 @@
 from dotenv import load_dotenv
-
+from ai_providers.ollama_provider import (
+    perguntar_ollama
+)
 from config import (
     AI_SYSTEM_PROMPT,
     AI_PRIMARY_PROVIDER,
-    AI_FALLBACK_PROVIDER
+    AI_FALLBACK_PROVIDER,
+    AI_LAST_PROVIDER
 )
 
 from ai_providers.openai_provider import (
@@ -21,7 +24,7 @@ load_dotenv()
 PROVEDORES = {
 
     "openai": perguntar_openai,
-
+    "ollama": perguntar_ollama,
     "gemini": perguntar_gemini
 
 }
@@ -152,9 +155,11 @@ def perguntar_ia(pergunta):
 
         AI_PRIMARY_PROVIDER,
 
-        AI_FALLBACK_PROVIDER
+        AI_FALLBACK_PROVIDER,
 
-    ]:
+        AI_LAST_PROVIDER
+
+]:  
 
         try:
 

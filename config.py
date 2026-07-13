@@ -52,6 +52,10 @@ Um resumo natural e curto, adequado para ser lido em voz alta.
 """
 
 
-AI_PRIMARY_PROVIDER = "gemini"
+AI_LOCAL_MODEL = "llama3.2:3b"
 
-AI_FALLBACK_PROVIDER = "openai"
+AI_PRIMARY_PROVIDER = "ollama"
+
+AI_FALLBACK_PROVIDER = "gemini"
+
+AI_LAST_PROVIDER = "openai"
