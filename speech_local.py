@@ -1,3 +1,4 @@
+from pathlib import Path
 import json
 import queue
 import sounddevice as sd
@@ -5,6 +6,12 @@ from vosk import Model, KaldiRecognizer
 
 
 MODEL_PATH = r"models\vosk-model-small-pt"
+
+BASE_DIR = Path(__file__).resolve().parent
+
+MODEL_PATH = str(
+    BASE_DIR / MODEL_PATH
+)
 
 audio_queue = queue.Queue()
 

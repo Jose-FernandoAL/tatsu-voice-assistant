@@ -1,5 +1,5 @@
 import speech_recognition as sr
-from runtime import definir_ultimo_comando, esta_rodando, esta_ativo
+from runtime import definir_ultimo_comando, esta_rodando, esta_ativo, definir_origem_comando, esta_falando
 from config import WAKE_WORDS, LISTEN_TIME_WAKE, LISTEN_TIME_COMMAND
 from speech_local import ouvir_local
 from command_queue import (
@@ -93,8 +93,17 @@ def rodar_modo_voz():
             time.sleep(1)
             continue
 
+        if esta_falando():
+
+            time.sleep(
+                0.1
+            )
+
+            continue
+        
         definir_status("Aguardando ativação")
         print("\nAguardando ativação...")
+
 
         texto = ouvir_local()
 
@@ -161,21 +170,34 @@ def rodar_modo_voz():
                 "Comando recebido:",
                 comando
             )
-
-            resposta = enviar_comando(
+            definir_origem_comando(
+                "Voz"
+            )
+            resultado = enviar_comando(
                 comando
             )
 
             print(
                 "Resposta da fila:",
-                resposta
+                resultado
             )
 
-            if resposta:
+            if resultado:
 
-                falar(
-                    resposta
-                )
+                print(
+                "Tipo:",
+                resultado["tipo"]
+            )
+
+            print(
+                "Provedor:",
+                resultado["provedor"]
+            )
+
+
+            falar(
+                resultado["resumo_voz"]
+            )
 
             definir_status(
                 "Ouvindo"

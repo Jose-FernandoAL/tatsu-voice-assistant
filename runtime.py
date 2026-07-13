@@ -3,6 +3,47 @@ ATIVO = True
 STATUS = "Iniciando..."
 ULTIMO_TEXTO = ""
 ULTIMO_COMANDO = ""
+ORIGEM_ULTIMO_COMANDO = ""
+LINK_REMOTO = ""
+STATUS_TUNEL = "Desconectado"
+
+
+FALANDO = False
+
+
+def definir_falando(valor):
+    global FALANDO
+    FALANDO = valor
+
+
+def esta_falando():
+    return FALANDO
+
+def definir_origem_comando(origem):
+    global ORIGEM_ULTIMO_COMANDO
+    ORIGEM_ULTIMO_COMANDO = origem
+
+
+def obter_origem_comando():
+    return ORIGEM_ULTIMO_COMANDO
+
+
+def definir_link_remoto(link):
+    global LINK_REMOTO
+    LINK_REMOTO = link
+
+
+def obter_link_remoto():
+    return LINK_REMOTO
+
+
+def definir_status_tunel(status):
+    global STATUS_TUNEL
+    STATUS_TUNEL = status
+
+
+def obter_status_tunel():
+    return STATUS_TUNEL
 
 def definir_ultimo_texto(texto):
     global ULTIMO_TEXTO

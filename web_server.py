@@ -1,5 +1,13 @@
 import os
 import secrets
+from runtime import (
+    definir_origem_comando,
+    definir_ultimo_comando,
+    obter_status,
+    obter_ultimo_comando,
+    obter_origem_comando,
+    obter_status_tunel
+)
 
 from flask import (
     Flask,
@@ -7,7 +15,8 @@ from flask import (
     request,
     redirect,
     url_for,
-    session
+    session,
+    jsonify
 )
 
 from dotenv import load_dotenv
@@ -106,6 +115,7 @@ def pagina_inicial():
 
     resposta = ""
 
+    provedor_resposta = ""
 
     if request.method == "POST":
 
@@ -137,45 +147,88 @@ def pagina_inicial():
         elif acao == "confirmar":
 
             if comando:
+                definir_ultimo_comando(
+                    comando
+                )
 
-                resposta_router = enviar_comando(
+                definir_origem_comando(
+                    "Web"
+                )
+
+                resultado = enviar_comando(
                     comando
                 )
 
 
-                if resposta_router:
+                resposta = resultado[
+                    "resposta_completa"
+                ]
 
-                    resposta = resposta_router
 
-                else:
-
-                    resposta = "Comando executado."
-
+                provedor_resposta = resultado[
+                    "provedor"
+                ]
 
             else:
 
-                resposta = (
-                    "Nenhum comando foi recebido."
-                )
+                resposta = "Comando executado."
 
 
         elif acao == "cancelar":
 
             resposta = "Comando cancelado."
 
+        else:
+
+            resposta = (
+                "Nenhum comando foi recebido."
+            )
+
 
     return render_template(
-
         "index.html",
-
         comando=comando,
-
         comando_pendente=comando_pendente,
-
-        resposta=resposta
-
+        resposta=resposta,
+        provedor_resposta=provedor_resposta
     )
 
+@app.route("/api/status")
+def api_status():
+
+    if not usuario_autenticado():
+
+        return jsonify({
+            "erro": "Não autorizado"
+        }), 401
+
+    return jsonify({
+
+        "status": (
+            obter_status()
+            or
+            "Desconhecido"
+        ),
+
+        "ultimo_comando": (
+            obter_ultimo_comando()
+            or
+            "-"
+        ),
+
+        "origem": (
+            obter_origem_comando()
+            or
+            "-"
+        ),
+
+        "status_tunel": (
+            obter_status_tunel()
+            or
+            "Desconectado"
+        )
+
+    })
 
 def iniciar_servidor_web():
 

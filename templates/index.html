@@ -15,9 +15,114 @@
     <a href="/logout" class="sair">
     Sair
 </a>
+<section class="status-painel">
+
+    <div class="status-item">
+
+        <span>Status</span>
+
+        <strong id="status-nexus">
+            Carregando...
+        </strong>
+
+    </div>
+
+
+    <div class="status-item">
+
+        <span>Último comando</span>
+
+        <strong id="ultimo-comando">
+            -
+        </strong>
+
+    </div>
+
+
+    <div class="status-item">
+
+        <span>Origem</span>
+
+        <strong id="origem-comando">
+            -
+        </strong>
+
+    </div>
+
+
+    <div class="status-item">
+
+        <span>Acesso remoto</span>
+
+        <strong id="status-tunel">
+            Carregando...
+        </strong>
+
+    </div>
+
+</section>
     <style>
 
+.status-painel {
 
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.status-item {
+
+    padding: 14px;
+
+    border-radius: 10px;
+
+    background-color: #374151;
+
+}
+
+
+.status-item span {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+}
+
+
+.status-item strong {
+
+    display: block;
+
+    overflow-wrap: anywhere;
+
+    font-size: 15px;
+
+}
+
+
+@media (
+    max-width: 450px
+) {
+
+    .status-painel {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
     .sair {
     display: block;
     margin-bottom: 20px;
@@ -256,28 +361,114 @@
         {% endif %}
 
 
-        {% if resposta %}
+{% if resposta %}
 
-            <section class="resposta">
+    <section class="resposta">
 
-                <strong>
+        <strong>
+            Resposta do Nexus:
+        </strong>
 
-                    Resposta do Nexus:
 
-                </strong>
+        {% if provedor_resposta %}
 
-                <p>
+            <small>
 
-                    {{ resposta }}
+                Fonte:
 
-                </p>
+                {{ provedor_resposta }}
 
-            </section>
+            </small>
 
         {% endif %}
 
+
+        <p>
+
+            {{ resposta }}
+
+        </p>
+
+    </section>
+
+{% endif %}
+
     </main>
 
+    <script>
+
+    async function atualizarStatus() {
+
+        try {
+
+            const resposta = await fetch(
+                "/api/status"
+            );
+
+
+            if (!resposta.ok) {
+
+                return;
+
+            }
+
+
+            const dados = await resposta.json();
+
+
+            document
+                .getElementById(
+                    "status-nexus"
+                )
+                .textContent =
+                    dados.status;
+
+
+            document
+                .getElementById(
+                    "ultimo-comando"
+                )
+                .textContent =
+                    dados.ultimo_comando;
+
+
+            document
+                .getElementById(
+                    "origem-comando"
+                )
+                .textContent =
+                    dados.origem;
+
+
+            document
+                .getElementById(
+                    "status-tunel"
+                )
+                .textContent =
+                    dados.status_tunel;
+
+        }
+
+        catch (erro) {
+
+            console.log(
+                "Não foi possível atualizar o status."
+            );
+
+        }
+
+    }
+
+
+    atualizarStatus();
+
+
+    setInterval(
+        atualizarStatus,
+        1000
+    );
+
+</script>
 </body>
 
 </html>

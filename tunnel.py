@@ -2,7 +2,10 @@ import os
 import re
 import subprocess
 import threading
-
+from runtime import (
+    definir_link_remoto,
+    definir_status_tunel
+)
 
 CAMINHO_CLOUDFLARED = os.path.join(
     os.path.dirname(__file__),
@@ -32,7 +35,8 @@ def ler_saida_tunel(processo):
         if resultado:
 
             endereco = resultado.group()
-
+            definir_link_remoto(endereco)
+            definir_status_tunel("Conectado")
             print("\n" + "=" * 60)
 
             print("ACESSO REMOTO DO NEXUS:")

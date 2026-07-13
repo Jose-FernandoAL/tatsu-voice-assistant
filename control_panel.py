@@ -1,8 +1,12 @@
+from os import link
 import tkinter as tk
 from speaker import falar
 
 from runtime import (
-     obter_ultimo_texto,
+    obter_origem_comando,
+    obter_link_remoto,
+    obter_status_tunel,
+    obter_ultimo_texto,
     obter_ultimo_comando,
     pausar,
     continuar_execucao,
@@ -16,7 +20,7 @@ from runtime import (
 def iniciar_interface():
     janela = tk.Tk()
     janela.title("Nexus Control Panel")
-    janela.geometry("420x280")
+    janela.geometry("460x600")
     janela.resizable(False, False)
 
     titulo = tk.Label(
@@ -69,6 +73,81 @@ def iniciar_interface():
     )
     label_ultimo_comando.pack(pady=5)
 
+    label_origem_titulo = tk.Label(
+    janela,
+    text="Origem do comando:",
+    font=("Arial", 10, "bold")
+    )
+    label_origem_titulo.pack(pady=(10, 0))
+
+    label_origem = tk.Label(
+        janela,
+        text="-",
+        font=("Arial", 10)
+    )
+    label_origem.pack(pady=5)
+
+
+    label_tunel_titulo = tk.Label(
+        janela,
+        text="Acesso remoto:",
+        font=("Arial", 10, "bold")
+    )
+    label_tunel_titulo.pack(pady=(10, 0))
+
+    label_tunel = tk.Label(
+        janela,
+        text="Desconectado",
+        font=("Arial", 10)
+    )
+    label_tunel.pack(pady=5)
+
+
+    label_link = tk.Label(
+        janela,
+        text="Link ainda não disponível",
+        font=("Arial", 9),
+        wraplength=360
+    )
+    label_link.pack(pady=5)
+
+
+    def copiar_link():
+        link = obter_link_remoto()
+
+        if not link:
+            return
+
+        janela.clipboard_clear()
+        janela.clipboard_append(link)
+        janela.update()
+
+        btn_copiar.config(
+            text="Link copiado!"
+        )
+
+        janela.after(
+            1500,
+            restaurar_texto_botao
+        )
+
+
+    def restaurar_texto_botao():
+        btn_copiar.config(
+            text="Copiar link"
+        )
+
+
+    btn_copiar = tk.Button(
+        janela,
+        text="Copiar link",
+        command=copiar_link
+    )
+
+    btn_copiar.pack(
+        pady=10
+    )
+
     def atualizar_status():
         if esta_ativo():
             label_status.config(text=obter_status())
@@ -76,6 +155,21 @@ def iniciar_interface():
         else:
             label_status.config(text="Encerrado")
             janela.after(800, janela.destroy)
+        label_origem.config(
+    text=obter_origem_comando() or "-"
+    )
+
+    label_tunel.config(
+        text=obter_status_tunel()
+    )
+
+    label_link.config(
+        text=(
+            obter_link_remoto()
+            or
+            "Link ainda não disponível"
+        )
+    )
 
     def pausar_nexus():
             pausar()
@@ -120,6 +214,15 @@ def iniciar_interface():
         command=encerrar_nexus
     )
     btn_encerrar.pack(pady=5)
+    btn_copiar = tk.Button(
+    janela,
+    text="Copiar link",
+    command=copiar_link
+)
+
+    btn_copiar.pack(
+    pady=10
+    )
 
     atualizar_status()
 
