@@ -1,7 +1,4 @@
 from dotenv import load_dotenv
-from ai_providers.ollama_provider import (
-    perguntar_ollama
-)
 from config import (
     AI_SYSTEM_PROMPT,
     AI_PRIMARY_PROVIDER,
@@ -9,25 +6,10 @@ from config import (
     AI_LAST_PROVIDER
 )
 
-from ai_providers.openai_provider import (
-    perguntar_openai
-)
-
-from ai_providers.gemini_provider import (
-    perguntar_gemini
-)
-
 
 load_dotenv()
 
 
-PROVEDORES = {
-
-    "openai": perguntar_openai,
-    "ollama": perguntar_ollama,
-    "gemini": perguntar_gemini
-
-}
 
 
 def separar_resposta(texto):
@@ -116,29 +98,48 @@ def consultar_provedor(
 ):
     """
     Consulta um provedor específico.
+
+    Os imports ficam aqui dentro para evitar
+    carregar bibliotecas pesadas ou bloqueadas
+    quando elas não forem usadas.
     """
 
-    funcao = PROVEDORES.get(
-        nome_provedor
-    )
+    if nome_provedor == "ollama":
 
-
-    if funcao is None:
-
-        raise ValueError(
-            f"Provedor inválido: "
-            f"{nome_provedor}"
+        from ai_providers.ollama_provider import (
+            perguntar_ollama
         )
 
+        return perguntar_ollama(
+            pergunta,
+            AI_SYSTEM_PROMPT
+        )
 
-    return funcao(
+    if nome_provedor == "gemini":
 
-        pergunta,
+        from ai_providers.gemini_provider import (
+            perguntar_gemini
+        )
 
-        AI_SYSTEM_PROMPT
+        return perguntar_gemini(
+            pergunta,
+            AI_SYSTEM_PROMPT
+        )
 
+    if nome_provedor == "openai":
+
+        from ai_providers.openai_provider import (
+            perguntar_openai
+        )
+
+        return perguntar_openai(
+            pergunta,
+            AI_SYSTEM_PROMPT
+        )
+
+    raise ValueError(
+        f"Provedor inválido: {nome_provedor}"
     )
-
 
 def perguntar_ia(pergunta):
     """

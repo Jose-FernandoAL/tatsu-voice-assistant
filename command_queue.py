@@ -1,6 +1,5 @@
 import queue
 import threading
-import time
 from router import executar_comando
 
 from ai_assistant import perguntar_ia
@@ -67,16 +66,6 @@ def processar_comando(comando):
     resposta_local = executar_comando(
         comando
     )
-
-    time.sleep(0.2
-    )
-
-    print(
-    "DEBUG RESPOSTA DO ROUTER:",
-    repr(resposta_local)
-    )
-
-
     if not comando_nao_reconhecido(
         resposta_local
     ):

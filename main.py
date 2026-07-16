@@ -37,8 +37,6 @@ import time
 
 
 
-MODO_TEXTO = False
-
 
 def detectar_wake_word(texto):
     return any(palavra in texto for palavra in WAKE_WORDS)
@@ -73,12 +71,15 @@ def rodar_modo_texto():
 
             comando = input("Comando: ").lower()
 
-            resposta = enviar_comando(comando)
+            resultado = enviar_comando(comando)
 
-            if resposta:
-                falar(resposta)
-            else:
-                falar("Comando não reconhecido.")
+            print("\nResposta completa:")
+            print(resultado["resposta_completa"])
+
+            print("\nProvedor:")
+            print(resultado["provedor"])
+
+            falar(resultado["resumo_voz"])
 
 
 def rodar_modo_voz():

@@ -15,7 +15,7 @@ LISTEN_TIME_COMMAND = 6
 AUTH_VOICE_ENABLED = False
 
 # Modo de execução
-MODO_TEXTO = True
+MODO_TEXTO = True  # True para modo texto, False para modo voz
 
 AI_SYSTEM_PROMPT = """
 Você é o módulo de pesquisa do Nexus.
